@@ -1,0 +1,130 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.31.92.45157",
+      "templateHash": "13423916446398237096"
+    }
+  },
+  "parameters": {
+    "deploymentPrefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Deployment prefix for naming resources."
+      }
+    },
+    "location": {
+      "type": "string",
+      "metadata": {
+        "description": "Location for Azure resources."
+      }
+    }
+  },
+  "variables": {
+    "logicAppName": "logic-app-test"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "[format('{0}-logicApp', parameters('deploymentPrefix'))]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "logicAppName": {
+            "value": "[variables('logicAppName')]"
+          },
+          "workflowDefinition": {
+            "value": {}
+          },
+          "workflowParameters": {
+            "value": {}
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.31.92.45157",
+              "templateHash": "14670729628122916024"
+            }
+          },
+          "parameters": {
+            "logicAppName": {
+              "type": "string",
+              "metadata": {
+                "description": "Name of the Logic App"
+              }
+            },
+            "location": {
+              "type": "string",
+              "metadata": {
+                "description": "Deployment location (e.g., eastus, westus, etc.)"
+              }
+            },
+            "logicAppState": {
+              "type": "string",
+              "defaultValue": "Enabled",
+              "metadata": {
+                "description": "State of the Logic App (Enabled/Disabled)"
+              }
+            },
+            "workflowDefinition": {
+              "type": "object",
+              "metadata": {
+                "description": "Workflow definition in JSON format"
+              }
+            },
+            "workflowParameters": {
+              "type": "object",
+              "metadata": {
+                "description": "Workflow parameters in JSON format"
+              }
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Logic/workflows",
+              "apiVersion": "2019-05-01",
+              "name": "[parameters('logicAppName')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "state": "[parameters('logicAppState')]",
+                "definition": "[parameters('workflowDefinition')]",
+                "parameters": "[if(not(empty(parameters('workflowParameters'))), parameters('workflowParameters'), null())]"
+              }
+            }
+          ],
+          "outputs": {
+            "logicAppId": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Logic/workflows', parameters('logicAppName'))]"
+            },
+            "logicAppName": {
+              "type": "string",
+              "value": "[parameters('logicAppName')]"
+            },
+            "logicAppState": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Logic/workflows', parameters('logicAppName')), '2019-05-01').state]"
+            },
+            "logicAppPrincipalId": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Logic/workflows', parameters('logicAppName')), '2019-05-01', 'full').identity.principalId]"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
