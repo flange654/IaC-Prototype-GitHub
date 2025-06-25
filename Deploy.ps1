@@ -2,7 +2,8 @@
 Param(
     [string]$TemplateFilePath,
     [string]$Location,
-    [switch]$WhatIf
+    [switch]$WhatIf,
+    [string]$ServiceName
 )
 Begin {
     $deploymentName = "Deploy_POC" + (Get-Date -Format "yyyyMMddHHmmss")
@@ -14,11 +15,14 @@ Process {
         '$schema'        = "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#"
         contentVersion   = "1.0.0.0"
         parameters = @{
-            deploymentPrefix  = @{
+            deploymentPrefix = @{
                 value = (Get-Date -Format "yyyyMMddHHmmss")
             }
-            location          = @{
+            location = @{
                 value = $Location
+            }
+            logicAppName = @{
+                value = $ServiceName
             }
         }
     }

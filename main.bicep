@@ -4,7 +4,9 @@ param deploymentPrefix string
 @description('Location for Azure resources.')
 param location string
 
-var logicAppName = 'logic-app-test-via-github'
+param logicAppName string
+
+// var logicAppName = 'logic-app-test-via-github'
 
 var workflowDefinition = {
   '$schema': 'https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#'

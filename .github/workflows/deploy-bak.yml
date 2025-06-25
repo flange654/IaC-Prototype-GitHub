@@ -1,8 +1,11 @@
 name: Deploy Logic App to Azure
 
 on:
+  push:
+    branches:
+      - master
   workflow_dispatch:
-    inputs:
+      inputs:
       deploy_environment:
         description: "Desired environment to deploy"
         required: true
@@ -21,8 +24,6 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env: 
-      LOGIC_APP_NAME: logic-app-github-${{ github.event.inputs.deploy_environment }}
 
     steps:
     - name: Checkout repository
@@ -38,4 +39,4 @@ jobs:
     - name: Deploy Bicep with PowerShell
       shell: pwsh
       run: |
-        pwsh ./Deploy.ps1 -TemplateFilePath './main.bicep' -Location 'southeastasia' -ServiceName $LOGIC_APP_NAME
+        pwsh ./Deploy.ps1 -TemplateFilePath './main.bicep' -Location 'southeastasia'
