@@ -1,9 +1,9 @@
 name: Deploy Logic App to Azure
 
 on:
-  push:
-    branches:
-      - master
+  # push:
+  #   branches:
+  #     - master
   workflow_dispatch:
       inputs:
       deploy_environment:

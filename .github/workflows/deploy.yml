@@ -38,4 +38,4 @@ jobs:
     - name: Deploy Bicep with PowerShell
       shell: pwsh
       run: |
-        pwsh ./Deploy.ps1 -TemplateFilePath './main.bicep' -Location 'southeastasia' -ServiceName $LOGIC_APP_NAME
+        pwsh ./Deploy.ps1 -TemplateFilePath './main.bicep' -Location 'southeastasia' -ServiceName $env:LOGIC_APP_NAME
